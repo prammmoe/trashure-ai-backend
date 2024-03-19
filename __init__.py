@@ -3,7 +3,7 @@ from flask import Flask
 app = Flask(__name__)
 
 @app.route('/')
-def __init__():
+def home_page():
     return '<h1>Trashure-AI Backend</h1>'
 
 if __name__ == '__main__':
