@@ -1,0 +1,5 @@
+flask_cors==latest
+flask==latest
+flask_restful==latest
+numpy==latest
+tensorflow==latest
