@@ -38,7 +38,7 @@ app = Flask(__name__)
 def home_page():
     data = {}  # Empty dictionary for initial rendering
     # return render_template("index.html", data=data)
-    return jsonify(data) # 
+    return jsonify(data) # return JSON
 
 
 @app.route("/klasifikasi", methods=["POST"])
