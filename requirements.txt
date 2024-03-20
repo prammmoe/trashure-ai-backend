@@ -3,3 +3,8 @@ flask==latest
 flask_restful==latest
 numpy==latest
 tensorflow==latest
+threading==latest
+PIL==latest
+loguru==latest
+threading==latest
+memory_profiler==latest
