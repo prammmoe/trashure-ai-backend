@@ -1,6 +1,5 @@
-from flask import Flask, jsonify, render_template, request, redirect, url_for, flash
+from flask import Flask, jsonify, render_template, request
 import numpy as np
-import requests
 import tensorflow as tf
 from PIL import Image
 
@@ -16,27 +15,21 @@ app = Flask(__name__)
 @app.route("/")
 def home_page():
     data = {}  # Empty dictionary for initial rendering
-    # Menampilkan hasil klasifikasi
     return render_template("index.html", data=data)
 
 @app.route("/klasifikasi", methods=["POST"])
 def klasifikasi():
     if request.method == "POST":
-        # Mengambil gambar
         uploaded_file = request.files["image"]
         if uploaded_file is not None:
-            # Konversi gambar ke format yang sesuai
             pil_image = Image.open(uploaded_file.stream)
             pil_image = pil_image.convert('RGB')
             pil_image = pil_image.resize((299, 299))
             image_array = np.array(pil_image) / 255.
 
-            # Prediksi
             prediction = model.predict(np.expand_dims(image_array, axis=0))
             index = np.argmax(prediction)
             confidence = prediction[0][index]
-
-            # Tampilkan hasil
 
             if confidence >= 0.6:
                 nama_kelas = class_names[index]
@@ -54,7 +47,6 @@ def klasifikasi():
                 return render_template("index.html", data=data)
                 # return jsonify(data)
 
-# Solusi berdasarkan jenis sampah
 def solusi(nama_kelas, nama_kelas_all):
     solusi_dict = {
         nama_kelas_all[0]: "kardus",
