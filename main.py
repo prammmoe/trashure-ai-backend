@@ -15,9 +15,7 @@ app = Flask(__name__)
 # Home route
 @app.route("/")
 def home_page():
-    # Mengambil data JSON dari klasifikasi
-    data = requests.get("http://127.0.0.1:8001/klasifikasi").json()
-
+    data = {}  # Empty dictionary for initial rendering
     # Menampilkan hasil klasifikasi
     return render_template("index.html", data=data)
 
@@ -41,36 +39,38 @@ def klasifikasi():
             # Tampilkan hasil
 
             if confidence >= 0.6:
-                nama_kelas = solusi(index, class_names)
+                nama_kelas = class_names[index]
                 data = {
                     "nama_kelas": nama_kelas,
                     "confidence": confidence*100,
-                    "solusi": solusi(nama_kelas)
+                    "solusi": solusi(nama_kelas, class_names)
                 }
-                return jsonify(data)
+                return render_template("index.html", data=data)
             
             else:
                 data = {
                     "error": "Sampah tidak ditemukan. Coba lagi."
                 }
-                return jsonify(data)
+                return render_template("index.html", data=data)
+                # return jsonify(data)
 
 # Solusi berdasarkan jenis sampah
-def solusi(nama_kelas_index, nama_kelas):
+def solusi(nama_kelas, nama_kelas_all):
     solusi_dict = {
-        nama_kelas[0]: "kardus",
-        nama_kelas[1]: "kaca",
-        nama_kelas[2]: "kaleng",
-        nama_kelas[3]: "organic_fresh",
-        nama_kelas[4]: "organic_common",
-        nama_kelas[5]: "organic_rot",
-        nama_kelas[6]: "kertas",
-        nama_kelas[7]: "gelas",
-        nama_kelas[8]: "kantong",
-        nama_kelas[9]: "botol",
-        nama_kelas[10]: "alat_makan",
+        nama_kelas_all[0]: "kardus",
+        nama_kelas_all[1]: "kaca",
+        nama_kelas_all[2]: "kaleng",
+        nama_kelas_all[3]: "organic_fresh",
+        nama_kelas_all[4]: "organic_common",
+        nama_kelas_all[5]: "organic_rot",
+        nama_kelas_all[6]: "kertas",
+        nama_kelas_all[7]: "gelas",
+        nama_kelas_all[8]: "kantong",
+        nama_kelas_all[9]: "botol",
+        nama_kelas_all[10]: "alat_makan",
     }
-    return solusi_dict.get(nama_kelas_index, "solusi_umum")
+    return solusi_dict.get(nama_kelas, "solusi_umum")
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=8001)
