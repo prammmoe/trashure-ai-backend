@@ -1,9 +1,11 @@
-# Trashure-AI Backend 
+# Trashure-AI Backend
 
-Backend for Trashure-AI model developed using Flask. 
+Backend for Trashure-AI model developed using Flask.
 
-How to run:
+## How to run:
 
-1. Clone this repository using `$ git clone https://github.com/prammmoe/trashure-ai-backend.git`
-2. Install the requirements needed using `$ pip install -r requirements.txt`
-3. Run the development locally using `bash run.sh` 
+1. Make sure you have python environment (conda, venv) installed.
+2. Clone this repository using `$ git clone https://github.com/prammmoe/trashure-ai-backend.git`
+3. Install the requirements needed using `$ pip install -r requirements.txt`
+4. Run the development locally using `$ bash run.sh`
+5. If you need to change the port, specify the port in `main.py -> app.run(port == { specify your port in here }) `
