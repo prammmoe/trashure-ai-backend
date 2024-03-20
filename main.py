@@ -2,6 +2,27 @@ from flask import Flask, jsonify, render_template, request
 import numpy as np
 import tensorflow as tf
 from PIL import Image
+import memory_profiler as mp
+from loguru import logger
+import psutil
+from threading import Timer
+
+# Logging configuration
+logger.add(sink="stderr", level="INFO")
+
+# Function to capture CPU usage
+def log_cpu_usage():
+    cpu_usage = psutil.cpu_percent()
+    logger.info(f"CPU Usage: {cpu_usage:.2f}%")
+
+# Function to schedule periodic CPU logging
+def periodic_cpu_log():
+    log_cpu_usage()
+    timer = Timer(5, periodic_cpu_log)  # Adjust logging interval
+    timer.start()
+
+# Start periodic CPU logging in a background thread
+periodic_cpu_log()
 
 # Load model and class_names
 model = tf.keras.models.load_model('models/model.h5')
@@ -17,8 +38,9 @@ def home_page():
     data = {}  # Empty dictionary for initial rendering
     return render_template("index.html", data=data)
 
+@mp.profile
 @app.route("/klasifikasi", methods=["POST"])
-def klasifikasi():
+def predict():
     if request.method == "POST":
         uploaded_file = request.files["image"]
         if uploaded_file is not None:
@@ -46,6 +68,8 @@ def klasifikasi():
                 }
                 return render_template("index.html", data=data)
                 # return jsonify(data)
+            
+app.add_url_rule(rule='/klasifikasi', endpoint='klasifikasi', view_func=predict, methods=["GET"])
 
 def solusi(nama_kelas, nama_kelas_all):
     solusi_dict = {
@@ -62,7 +86,6 @@ def solusi(nama_kelas, nama_kelas_all):
         nama_kelas_all[10]: "alat_makan",
     }
     return solusi_dict.get(nama_kelas, "solusi_umum")
-
 
 if __name__ == '__main__':
     app.run(debug=True, port=8001)
