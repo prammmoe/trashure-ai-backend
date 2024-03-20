@@ -7,22 +7,22 @@ from loguru import logger
 import psutil
 from threading import Timer
 
-# Logging configuration
-logger.add(sink="stderr", level="INFO")
+# # Logging configuration
+# logger.add(sink="stderr", level="INFO")
 
-# Function to capture CPU usage
-def log_cpu_usage():
-    cpu_usage = psutil.cpu_percent()
-    logger.info(f"CPU Usage: {cpu_usage:.2f}%")
+# # Function to capture CPU usage
+# def log_cpu_usage():
+#     cpu_usage = psutil.cpu_percent()
+#     logger.info(f"CPU Usage: {cpu_usage:.2f}%")
 
-# Function to schedule periodic CPU logging
-def periodic_cpu_log():
-    log_cpu_usage()
-    timer = Timer(5, periodic_cpu_log)  
-    timer.start()
+# # Function to schedule periodic CPU logging
+# def periodic_cpu_log():
+#     log_cpu_usage()
+#     timer = Timer(15, periodic_cpu_log) # Show CPU usage every 15s
+#     timer.start()
 
-# Start periodic CPU logging in a background thread
-periodic_cpu_log()
+# # Start periodic CPU logging in a background thread
+# periodic_cpu_log()
 
 # Load model and class_names
 model = tf.keras.models.load_model('models/model.h5')
@@ -37,9 +37,9 @@ app = Flask(__name__)
 @app.route("/", methods=["GET"])
 def home_page():
     data = {}  # Empty dictionary for initial rendering
-    return render_template("index.html", data=data)
+    # return render_template("index.html", data=data)
+    return jsonify(data) # 
 
-app.add_url_rule(rule='/', endpoint='home_page', view_func=home_page, methods=["GET"])
 
 @app.route("/klasifikasi", methods=["POST"])
 def predict():
@@ -60,19 +60,21 @@ def predict():
                 data = {
                     "nama_kelas": nama_kelas,
                     "confidence": confidence*100,
-                    "solusi": solusi(nama_kelas, class_names)
+                    "jenis_sampah": sampah(nama_kelas, class_names)
                 }
-                return render_template("index.html", data=data)
+                # return render_template("index.html", data=data)
+                return jsonify(data) # return JSON 
+
             
             else:
                 data = {
                     "error": "Sampah tidak ditemukan. Coba lagi."
                 }
-                return render_template("index.html", data=data)
-                # return jsonify(data)
+                # return render_template("index.html", data=data)
+                return jsonify(data) # return JSON
 
-def solusi(nama_kelas, nama_kelas_all):
-    solusi_dict = {
+def sampah(nama_kelas, nama_kelas_all):
+    sampah_dict = {
         nama_kelas_all[0]: "kardus",
         nama_kelas_all[1]: "kaca",
         nama_kelas_all[2]: "kaleng",
@@ -85,7 +87,7 @@ def solusi(nama_kelas, nama_kelas_all):
         nama_kelas_all[9]: "botol",
         nama_kelas_all[10]: "alat_makan",
     }
-    return solusi_dict.get(nama_kelas, "solusi_umum")
+    return sampah_dict.get(nama_kelas, "jenis_sampah_umum")
 
 if __name__ == '__main__':
     app.run(debug=True, port=8001)
