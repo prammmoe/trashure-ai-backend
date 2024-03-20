@@ -178,3 +178,14 @@
 2024-03-20 13:26:51.853 | INFO     | __main__:log_cpu_usage:16 - CPU Usage: 3.70%
 2024-03-20 13:26:56.855 | INFO     | __main__:log_cpu_usage:16 - CPU Usage: 5.30%
 2024-03-20 13:27:01.856 | INFO     | __main__:log_cpu_usage:16 - CPU Usage: 5.50%
+2024-03-20 13:27:06.858 | INFO     | __main__:log_cpu_usage:16 - CPU Usage: 6.50%
+2024-03-20 13:27:11.860 | INFO     | __main__:log_cpu_usage:16 - CPU Usage: 3.40%
+2024-03-20 13:27:16.861 | INFO     | __main__:log_cpu_usage:16 - CPU Usage: 9.90%
+2024-03-20 13:27:21.863 | INFO     | __main__:log_cpu_usage:16 - CPU Usage: 1.90%
+2024-03-20 13:27:26.864 | INFO     | __main__:log_cpu_usage:16 - CPU Usage: 3.10%
+2024-03-20 13:27:31.866 | INFO     | __main__:log_cpu_usage:16 - CPU Usage: 4.70%
+2024-03-20 13:27:36.868 | INFO     | __main__:log_cpu_usage:16 - CPU Usage: 5.40%
+2024-03-20 13:27:41.869 | INFO     | __main__:log_cpu_usage:16 - CPU Usage: 8.50%
+2024-03-20 13:27:46.871 | INFO     | __main__:log_cpu_usage:16 - CPU Usage: 4.00%
+2024-03-20 13:27:51.872 | INFO     | __main__:log_cpu_usage:16 - CPU Usage: 10.10%
+2024-03-20 13:27:56.874 | INFO     | __main__:log_cpu_usage:16 - CPU Usage: 6.70%

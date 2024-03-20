@@ -18,7 +18,7 @@ def log_cpu_usage():
 # Function to schedule periodic CPU logging
 def periodic_cpu_log():
     log_cpu_usage()
-    timer = Timer(5, periodic_cpu_log)  # Adjust logging interval
+    timer = Timer(5, periodic_cpu_log)  
     timer.start()
 
 # Start periodic CPU logging in a background thread
