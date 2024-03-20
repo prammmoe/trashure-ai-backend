@@ -33,10 +33,13 @@ print('Model loaded. Start serving ...')
 app = Flask(__name__)
 
 # Home route
-@app.route("/")
+@mp.profile
+@app.route("/", methods=["GET"])
 def home_page():
     data = {}  # Empty dictionary for initial rendering
     return render_template("index.html", data=data)
+
+app.add_url_rule(rule='/', endpoint='home_page', view_func=home_page, methods=["GET"])
 
 @mp.profile
 @app.route("/klasifikasi", methods=["POST"])
@@ -69,7 +72,7 @@ def predict():
                 return render_template("index.html", data=data)
                 # return jsonify(data)
             
-app.add_url_rule(rule='/klasifikasi', endpoint='klasifikasi', view_func=predict, methods=["GET"])
+app.add_url_rule(rule='/klasifikasi', endpoint='klasifikasi', view_func=predict, methods=["POST"])
 
 def solusi(nama_kelas, nama_kelas_all):
     solusi_dict = {
