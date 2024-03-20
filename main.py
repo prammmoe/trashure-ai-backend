@@ -41,7 +41,6 @@ def home_page():
 
 app.add_url_rule(rule='/', endpoint='home_page', view_func=home_page, methods=["GET"])
 
-@mp.profile
 @app.route("/klasifikasi", methods=["POST"])
 def predict():
     if request.method == "POST":
@@ -71,8 +70,6 @@ def predict():
                 }
                 return render_template("index.html", data=data)
                 # return jsonify(data)
-            
-app.add_url_rule(rule='/klasifikasi', endpoint='klasifikasi', view_func=predict, methods=["POST"])
 
 def solusi(nama_kelas, nama_kelas_all):
     solusi_dict = {
