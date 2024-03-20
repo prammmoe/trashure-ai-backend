@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Klasifikasi Sampah</title>
+  </head>
+  <body>
+    <h1>Hasil Klasifikasi Sampah</h1>
+    {% if data %}
+    <p>Nama Kelas: {{ data.nama_kelas }}</p>
+    <p>Confidence: {{ data.confidence }}%</p>
+    <p>Solusi: {{ data.solusi }}</p>
+    {% else %}
+    <p>{{ data.error }}</p>
+    {% endif %}
+  </body>
+</html>
