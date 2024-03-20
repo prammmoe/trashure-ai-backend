@@ -1,58 +1,76 @@
-from flask import Flask, session, redirect, url_for, render_template, request, escape
-from models.model import load_model
-import os
-import sys
-import glob
-import re
-from werkzeug.utils import secure_filename
-from keras.preprocessing import image
-from keras.applications.imagenet_utils import preprocess_input, decode_predictions
+from flask import Flask, jsonify, render_template, request, redirect, url_for, flash
 import numpy as np
-from keras.models import load_model
+import requests
 import tensorflow as tf
+from PIL import Image
 
-
-app = Flask(__name__)
-
-model = load_model()
+# Load model and class_names
+model = tf.keras.models.load_model('models/model.h5')
+class_names = np.load('models/nama_kelas.npy')
 print('Model loaded. Start serving ...')
 
-@app.route('/')
+# Initiate Flask app
+app = Flask(__name__)
+
+# Home route
+@app.route("/")
 def home_page():
-    return '<h1>Trashure-AI Backend</h1>'
+    # Mengambil data JSON dari klasifikasi
+    data = requests.get("http://127.0.0.1:8001/klasifikasi").json()
 
-@app.route('/predict', methods=["GET", "POST"])
-def predict(img_path, model, class_names):
-    treshold = .6
-    img = image.load_img(img_path, target_size=(299, 299))
-    img = np.array(img) / 255.
+    # Menampilkan hasil klasifikasi
+    return render_template("index.html", data=data)
 
-    preds = model.predict_classes(img)
-    return preds
+@app.route("/klasifikasi", methods=["POST"])
+def klasifikasi():
+    if request.method == "POST":
+        # Mengambil gambar
+        uploaded_file = request.files["image"]
+        if uploaded_file is not None:
+            # Konversi gambar ke format yang sesuai
+            pil_image = Image.open(uploaded_file.stream)
+            pil_image = pil_image.convert('RGB')
+            pil_image = pil_image.resize((299, 299))
+            image_array = np.array(pil_image) / 255.
 
-def load_model():
-    model = tf.keras.load_model('./model.h5')
-    class_names = np.load('./nama_kelas.npy')
-    return model, class_names
-    
+            # Prediksi
+            prediction = model.predict(np.expand_dims(image_array, axis=0))
+            index = np.argmax(prediction)
+            confidence = prediction[0][index]
 
-def upload():
-    if request.method == 'POST':
-        # Get the image file from POST req
-        f = request.files['file']
+            # Tampilkan hasil
 
-        # Save file to ./uploads
-        basepath = os.path.dirname(__file__)
-        file_path = os.path.join(basepath, 'uploads', secure_filename(f.filename))
-        f.save(file_path)
+            if confidence >= 0.6:
+                nama_kelas = solusi(index, class_names)
+                data = {
+                    "nama_kelas": nama_kelas,
+                    "confidence": confidence*100,
+                    "solusi": solusi(nama_kelas)
+                }
+                return jsonify(data)
+            
+            else:
+                data = {
+                    "error": "Sampah tidak ditemukan. Coba lagi."
+                }
+                return jsonify(data)
 
-        preds = predict(file_path, model)
-
-        #  Arrange the correct return 
-
-    
-    
-
+# Solusi berdasarkan jenis sampah
+def solusi(nama_kelas_index, nama_kelas):
+    solusi_dict = {
+        nama_kelas[0]: "kardus",
+        nama_kelas[1]: "kaca",
+        nama_kelas[2]: "kaleng",
+        nama_kelas[3]: "organic_fresh",
+        nama_kelas[4]: "organic_common",
+        nama_kelas[5]: "organic_rot",
+        nama_kelas[6]: "kertas",
+        nama_kelas[7]: "gelas",
+        nama_kelas[8]: "kantong",
+        nama_kelas[9]: "botol",
+        nama_kelas[10]: "alat_makan",
+    }
+    return solusi_dict.get(nama_kelas_index, "solusi_umum")
 
 if __name__ == '__main__':
     app.run(debug=True, port=8001)
