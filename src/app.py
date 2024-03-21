@@ -1,4 +1,3 @@
-# app.py
 from predict import App
 from flask import Flask
 
