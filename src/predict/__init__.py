@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request
+from flask import jsonify, render_template, request
 import numpy as np
 import tensorflow as tf
 from PIL import Image
@@ -20,7 +20,7 @@ class App:
     def home_page(self):
         data = {}  # Empty dictionary for initial rendering
         # return render_template("index.html", data=data)
-        return jsonify(data) # return JSON
+        return (jsonify(data)) # return empty JSON
 
     def predict(self):
         if request.method == "POST":
