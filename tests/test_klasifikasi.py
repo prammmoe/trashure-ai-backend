@@ -4,6 +4,7 @@ from PIL import Image
 import pytest
 from src.app import App  
 
+@pytest.fixture
 def test_klasifikasi_success():
     image = Image.new("RGB", (299, 299))
     image_bytes = BytesIO()
@@ -19,6 +20,7 @@ def test_klasifikasi_success():
         assert "nama_kelas" in data
         assert "confidence" in data
 
+@pytest.fixture
 def test_klasifikasi_no_image():
     app = App(None)
 
