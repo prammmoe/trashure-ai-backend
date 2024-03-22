@@ -1,4 +1,4 @@
-from flask import jsonify, render_template, request
+from flask import jsonify, request
 import numpy as np
 import tensorflow as tf
 from PIL import Image
@@ -19,7 +19,6 @@ class App:
 
     def home_page(self):
         data = {}  # Empty dictionary for initial rendering
-        # return render_template("index.html", data=data)
         return (jsonify(data)) # return empty JSON
 
     def predict(self):
@@ -42,7 +41,6 @@ class App:
                         "confidence": confidence*100,
                         "jenis_sampah": self.sampah(nama_kelas, self.class_names)
                     }
-                    # return render_template("index.html", data=data)
                     return jsonify(data) # return JSON 
 
                 
@@ -50,7 +48,6 @@ class App:
                     data = {
                         "error": "Sampah tidak ditemukan. Coba lagi."
                     }
-                    # return render_template("index.html", data=data)
                     return jsonify(data) # return JSON
 
     def sampah(self, nama_kelas, nama_kelas_all):

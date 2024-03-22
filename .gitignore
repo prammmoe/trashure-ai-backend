@@ -1,1 +1,4 @@
 /src/models
+/src/templates
+stderr
+src/load_npy.ipynb
