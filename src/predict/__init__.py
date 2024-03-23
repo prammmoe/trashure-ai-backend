@@ -15,11 +15,10 @@ class App:
 
         # Define routes
         self.app.route("/", methods=["GET"])(self.home_page)
-        self.app.route("/klasifikasi", methods=["POST"])(self.predict)
+        self.app.route("/predict", methods=["POST"])(self.predict)
 
     def home_page(self):
-        data = {}  # Empty dictionary for initial rendering
-        return (jsonify(data)) # return empty JSON
+        return "Trashure Backend API"
 
     def predict(self):
         if request.method == "POST":
@@ -37,14 +36,20 @@ class App:
                 if confidence >= 0.6:
                     nama_kelas = self.class_names[index]
                     data = {
-                        "nama_kelas": nama_kelas,
-                        "confidence": confidence*100,
-                        "jenis_sampah": self.sampah(nama_kelas, self.class_names)
+                        "status": "success",
+                        "data": {
+                            "nama_kelas": nama_kelas,
+                            "confidence": confidence*100,
+                            "jenis_sampah": self.sampah(nama_kelas, self.class_names)
+                        }
                     }
                     return jsonify(data) # return JSON 
                 else:
                     data = {
-                        "error": "Sampah tidak ditemukan. Coba lagi."
+                        "status": "error",
+                        "data": {
+                            "message": "Sampah tidak dikenali.",
+                        }
                     }
                     return jsonify(data) # return JSON
 
@@ -65,4 +70,4 @@ class App:
         return sampah_dict.get(nama_kelas, "jenis_sampah_umum")
     
     def run(self):
-        self.app.run(debug=True, port=8001)
+        self.app.run(debug=True, host="0.0.0.0", port=8001)
