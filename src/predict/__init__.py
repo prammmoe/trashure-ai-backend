@@ -64,4 +64,4 @@ class App:
         return sampah_dict.get(nama_kelas, "jenis_sampah_umum")
     
     def run(self):
-        self.app.run(debug=True, port=8001)
+        self.app.run(debug=True, host="0.0.0.0", port=8001)
