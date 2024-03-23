@@ -18,8 +18,7 @@ class App:
         self.app.route("/klasifikasi", methods=["POST"])(self.predict)
 
     def home_page(self):
-        data = {}  # Empty dictionary for initial rendering
-        return (jsonify(data)) # return empty JSON
+        return "Trashure Backend API"
 
     def predict(self):
         if request.method == "POST":
