@@ -15,7 +15,7 @@ class App:
 
         # Define routes
         self.app.route("/", methods=["GET"])(self.home_page)
-        self.app.route("/klasifikasi", methods=["POST"])(self.predict)
+        self.app.route("/predict", methods=["POST"])(self.predict)
 
     def home_page(self):
         return "Trashure Backend API"
