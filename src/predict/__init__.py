@@ -36,14 +36,20 @@ class App:
                 if confidence >= 0.6:
                     nama_kelas = self.class_names[index]
                     data = {
-                        "nama_kelas": nama_kelas,
-                        "confidence": confidence*100,
-                        "jenis_sampah": self.sampah(nama_kelas, self.class_names)
+                        "status": "success",
+                        "data": {
+                            "nama_kelas": nama_kelas,
+                            "confidence": confidence*100,
+                            "jenis_sampah": self.sampah(nama_kelas, self.class_names)
+                        }
                     }
                     return jsonify(data) # return JSON 
                 else:
                     data = {
-                        "error": "Sampah tidak ditemukan. Coba lagi."
+                        "status": "error",
+                        "data": {
+                            "message": "Sampah tidak dikenali.",
+                        }
                     }
                     return jsonify(data) # return JSON
 
