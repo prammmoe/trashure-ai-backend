@@ -42,8 +42,6 @@ class App:
                         "jenis_sampah": self.sampah(nama_kelas, self.class_names)
                     }
                     return jsonify(data) # return JSON 
-
-                
                 else:
                     data = {
                         "error": "Sampah tidak ditemukan. Coba lagi."
