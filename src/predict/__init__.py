@@ -15,10 +15,13 @@ class App:
 
         # Define routes
         self.app.route("/", methods=["GET"])(self.home_page)
-        self.app.route("/predict", methods=["POST"])(self.predict)
+        self.app.route("/predict", methods=["POST", "GET"])(self.predict)
 
     def home_page(self):
         return "Trashure Backend API"
+
+    def page_not_found(self, e):
+        return jsonify({"status": 404, "message": "Not Found"}), 404
 
     def predict(self):
         if request.method == "POST":
@@ -52,6 +55,15 @@ class App:
                         }
                     }
                     return jsonify(data) # return JSON
+                
+        elif request.method == "GET":
+            data = {
+                        "status": "",
+                        "data": {
+                            "message": "",
+                        }
+                    }
+            return jsonify(data) # return JSON
 
     def sampah(self, nama_kelas, nama_kelas_all):
         sampah_dict = {
