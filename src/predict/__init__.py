@@ -20,6 +20,9 @@ class App:
     def home_page(self):
         return "Trashure Backend API"
 
+    def page_not_found(self, e):
+        return jsonify({"status": 404, "message": "Not Found"}), 404
+
     def predict(self):
         if request.method == "POST":
             uploaded_file = request.files["image"]
