@@ -18,8 +18,8 @@ https://bit.ly/trashure-models
 ```
 pip install -r requirements.txt
 ```
-6. Run the development locally using
+6. If you need to change the port, specify the port in `main.py -> app.run(port == { specify your port in here }) `
+7. Run the development locally using
 ```
 bash run.sh
 ```
-7. If you need to change the port, specify the port in `main.py -> app.run(port == { specify your port in here }) `
