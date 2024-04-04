@@ -9,8 +9,8 @@ class App:
         self.app = app
 
         # Load model and class_names
-        self.model = tf.keras.models.load_model('../src/models/model.h5')
-        self.class_names = np.load('../src/models/nama_kelas.npy')
+        self.model = tf.keras.models.load_model('src/models/model.h5')
+        self.class_names = np.load('src/models/nama_kelas.npy')
         print('Model loaded. Start serving ...')
 
         # Define routes
