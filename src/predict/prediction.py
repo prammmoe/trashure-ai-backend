@@ -4,7 +4,7 @@ import tensorflow as tf
 from PIL import Image
 
 
-class App:
+class Prediction:
     def __init__(self, app):
         self.app = app
 
