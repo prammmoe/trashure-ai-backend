@@ -1,4 +1,4 @@
-from predict.prediction import Prediction
+from predict.runner import Prediction
 from flask import Flask
 
 if __name__ == '__main__':
