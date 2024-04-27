@@ -2,7 +2,7 @@ from io import BytesIO
 from PIL import Image
 
 import pytest
-from src.app import App  
+from main import App  
 
 @pytest.fixture
 def test_klasifikasi_success():
